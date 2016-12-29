@@ -26,12 +26,31 @@ var Countdown = React.createClass({
       }
     }
   },
+  // componentWillUpdate:function(nextProp,nextState){
+  //   console.log('this.state and prop is not change yet but you have access to upcoming new prop and state');
+  // },
+  // componentWillMount:function(){
+  //   console.log('component will mount. do have access to refs yet');
+  // },
+  // componentDidMount:function(){
+  //   console.log('compoent did mount. you have access to refs now');
+  // },
+  componentWillUnmount:function(){
+    clearInterval(this.timer);
+    this.timer = undefined;
+  },
   startTimer : function(){
     this.timer = setInterval(()=>{
       var newCount = this.state.count - 1;
       this.setState({
         count:newCount >= 0 ? newCount : 0
       });
+
+      if(newCount === 0){
+        this.setState(
+          {countdownStatus:'stopped'}
+        )
+      }
     },1000);
   },
   handleSetCountdown:function(seconds){
